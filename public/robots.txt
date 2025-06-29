@@ -1,0 +1,6 @@
+
+User-agent: *
+Allow: /
+
+# IMPORTANT: Replace "https://your-app-url.com" with your actual production domain
+Sitemap: https://your-app-url.com/sitemap.xml

@@ -1,0 +1,86 @@
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default Deny: By default, deny all reads and writes to all documents.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // User Settings:
+    // - Users can read, update, and delete their own settings document.
+    // - Users can create their settings document, ensuring the userId in the document matches their auth UID.
+    match /userSettings/{userId} {
+      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId &&
+                       request.resource.data.userId == request.auth.uid;
+    }
+
+    // Public Profiles:
+    // - Anyone (even unauthenticated users) can read public profiles.
+    //   (Change to `if request.auth != null;` if only logged-in users should read profiles)
+    // - Users can create their own public profile.
+    // - Users can update or delete only their own public profile.
+    match /publicProfiles/{userId} {
+      allow read: if true;
+      allow create: if request.auth != null && request.auth.uid == userId &&
+                       request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Planner Tasks:
+    // - Users can read, update, and delete tasks where their UID matches the task's userId field.
+    // - Users can create tasks, ensuring the task's userId field is set to their UID.
+    match /plannerTasks/{taskId} {
+      allow read, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow update: if request.auth != null && request.auth.uid == resource.data.userId &&
+                       // Disallow changing the userId on update
+                       request.resource.data.userId == resource.data.userId;
+    }
+
+    // Planner Task Subtasks:
+    // - Users can read and write subtasks if they own the parent plannerTask.
+    match /plannerTasks/{taskId}/subtasks/{subtaskId} {
+      allow read, write: if request.auth != null &&
+                            get(/databases/$(database)/documents/plannerTasks/$(taskId)).data.userId == request.auth.uid;
+    }
+
+    // Planner Labels:
+    // - Users can read, create, update, and delete labels associated with their UID.
+    match /plannerLabels/{labelId} {
+      allow read, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow update: if request.auth != null && request.auth.uid == resource.data.userId &&
+                       request.resource.data.userId == resource.data.userId;
+    }
+
+    // Focus Sessions (Logs):
+    // - Users can read and delete their own focus session logs.
+    // - Users can create focus session logs, ensuring the userId matches their auth UID.
+    // - Updates are generally not needed for logs, but can be added if required.
+    match /focusSessions/{sessionId} {
+      allow read, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Legacy 'tasks' collection (if still in use):
+    // - Users can read and write tasks where their UID matches the task's userId field.
+    match /tasks/{taskId} {
+      allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Feedback:
+    // - Authenticated users can create feedback documents.
+    // - Reading, updating, or deleting feedback would typically be restricted to admin roles
+    //   (not defined in these basic rules but can be added with custom claims or admin functions).
+    match /feedback/{feedbackId} {
+      allow create: if request.auth != null;
+      // Example for admin-only read/write (requires isAdmin() function or claim):
+      // allow read, update, delete: if isAdmin();
+    }
+  }
+}

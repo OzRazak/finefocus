@@ -1,0 +1,122 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+@layer base {
+  :root {
+    /* Auxo Digital Inspired - Light Theme - Yellow Primary */
+    --background: 210 17% 98%; /* Light Grey Background */
+    --foreground: 210 10% 15%; /* Very Dark Grey/Black for Text & Headers */
+
+    --card: 0 0% 100%;       /* White card */
+    --card-foreground: 210 10% 15%; /* Dark text on card */
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 10% 15%;
+
+    --primary: 40 98% 53%;    /* Auxo Yellow/Gold (e.g., #fdb913) - NEW PRIMARY */
+    --primary-foreground: 210 10% 10%; /* Dark text on yellow primary */
+
+    --secondary: 210 40% 96.1%; /* Lighter blue/grey for secondary elements */
+    --secondary-foreground: 208 100% 36%; /* Auxo blue text on secondary - this might need to be darker now */
+
+    --muted: 210 15% 90%;   /* Light grey for muted elements */
+    --muted-foreground: 210 10% 45%; /* Darker grey for muted text */
+
+    --accent: 208 100% 36%;  /* Auxo Blue (e.g., #0057b7) - NEW ACCENT */
+    --accent-foreground: 0 0% 100%; /* White text on blue accent */
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 210 15% 88%;
+    --input: 0 0% 96%;  /* Light grey input background */
+    --input-foreground: 210 10% 15%; /* Dark text for input */
+    --ring: 40 98% 53%;   /* New Primary Yellow for focus rings */
+
+    /* Chart Colors for light theme */
+    --chart-1: hsl(var(--primary)); /* Was primary (blue), now yellow */
+    --chart-2: hsl(var(--accent)); /* Was accent (yellow), now blue */
+    --chart-3: 200 70% 60%;
+    --chart-4: 30 70% 65%;
+    --chart-5: 240 60% 70%;
+
+    /* Sidebar - Light theme */
+    --sidebar-background: 0 0% 97%;
+    --sidebar-foreground: 210 10% 15%;
+    --sidebar-border: 210 15% 85%;
+    --sidebar-primary: hsl(var(--primary));
+    --sidebar-primary-foreground: hsl(var(--primary-foreground));
+    --sidebar-accent: hsl(var(--accent));
+    --sidebar-accent-foreground: hsl(var(--accent-foreground));
+    --sidebar-ring: hsl(var(--ring));
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Auxo Digital Inspired - Dark Theme - Yellow Primary */
+    --background: 210 10% 12%; /* Dark Cool Grey Background */
+    --foreground: 210 15% 95%;    /* Light Grey/White for Text & Headers */
+
+    --card: 210 10% 16%;       /* Slightly lighter dark grey for Cards */
+    --card-foreground: 210 15% 85%;
+
+    --popover: 210 10% 14%;    /* Darker Popovers */
+    --popover-foreground: 210 15% 85%;
+
+    --primary: 40 98% 60%;    /* Brighter Auxo Yellow/Gold for dark mode PRIMARY */
+    --primary-foreground: 210 10% 10%; /* Very dark text on yellow primary */
+
+    --secondary: 210 10% 25%; /* Darker grey for Secondary in dark mode */
+    --secondary-foreground: 210 15% 80%;
+
+    --muted: 210 10% 22%;
+    --muted-foreground: 210 15% 65%;
+
+    --accent: 208 100% 55%;  /* Brighter Auxo Blue for dark mode ACCENT */
+    --accent-foreground: 0 0% 100%; /* White text on brighter blue accent */
+
+    --destructive: 0 70% 55%; /* Adjusted Red for dark mode */
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 210 10% 20%;
+    --input: 210 10% 18%;
+    --input-foreground: 210 15% 80%;
+    --ring: 40 98% 60%;   /* Brighter Auxo Yellow for focus rings in dark mode */
+
+    /* Chart Colors for dark theme */
+    --chart-1: hsl(var(--primary)); /* Was primary (blue), now yellow */
+    --chart-2: hsl(var(--accent)); /* Was accent (yellow), now blue */
+    --chart-3: 200 70% 70%;
+    --chart-4: 30 70% 70%;
+    --chart-5: 240 60% 75%;
+
+    /* Sidebar - Dark theme */
+    --sidebar-background: 210 10% 10%; /* Even darker for sidebar */
+    --sidebar-foreground: 210 15% 88%;
+    --sidebar-border: 210 10% 18%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif; /* Ensure headlines also use Montserrat */
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: hsl(var(--muted-foreground) / 0.8);
+  }
+}

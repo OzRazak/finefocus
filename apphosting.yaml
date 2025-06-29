@@ -1,0 +1,20 @@
+# Settings to manage and configure a Firebase App Hosting backend.
+# https://firebase.google.com/docs/app-hosting/configure
+
+runConfig:
+  # Increase this value if you'd like to automatically spin up
+  # more instances in response to increased traffic.
+  maxInstances: 1
+
+# IMPORTANT: The GOOGLE_API_KEY should NOT be hardcoded here for security reasons.
+# It should be set as an environment variable in your Firebase App Hosting backend settings.
+# The Genkit Google AI plugin will automatically pick it up from there.
+env:
+-   variable: GOOGLE_API_KEY
+    # Ensure this variable is set in your Firebase App Hosting environment configuration.
+    # Example via Firebase Console: App Hosting > Your Backend > Environment variables
+    # Or, if using secrets:
+    # secret: YOUR_SECRET_MANAGER_SECRET_NAME
+    availability:
+    -   BUILD
+    -   RUNTIME
